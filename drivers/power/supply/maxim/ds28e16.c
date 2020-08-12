@@ -1171,9 +1171,6 @@ static enum power_supply_property verify_props[] = {
 	POWER_SUPPLY_PROP_PAGENUMBER,
 	POWER_SUPPLY_PROP_PAGEDATA,
 	POWER_SUPPLY_PROP_AUTHEN_RESULT,
-	POWER_SUPPLY_PROP_SESSION_SEED,
-	POWER_SUPPLY_PROP_S_SECRET,
-	POWER_SUPPLY_PROP_CHALLENGE,
 	POWER_SUPPLY_PROP_AUTH_ANON,
 	POWER_SUPPLY_PROP_AUTH_BDCONST,
 	POWER_SUPPLY_PROP_PAGE0_DATA,
@@ -1328,8 +1325,6 @@ static int verify_set_property(struct power_supply *psy,
 			       enum power_supply_property prop,
 			       const union power_supply_propval *val)
 {
-	//int ret;
-	//unsigned char buf[50];
 #ifdef CONFIG_K6_CHARGE
 	struct ds28e16_data *data = power_supply_get_drvdata(psy);
 	int authen_result;
@@ -1339,23 +1334,6 @@ static int verify_set_property(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_PAGENUMBER:
 		pagenumber = val->intval;
 		break;
-/*
-	case POWER_SUPPLY_PROP_PAGEDATA:
-		memcpy(buf, val->arrayval, 16);
-		ret = DS28E16_cmd_writeMemory(pagenumber, buf);
-		if (ret != DS_TRUE)
-			return -EAGAIN;
-		break;
-	case POWER_SUPPLY_PROP_SESSION_SEED:
-		memcpy(session_seed, val->arrayval, 32);
-		break;
-	case POWER_SUPPLY_PROP_S_SECRET:
-		memcpy(S_secret, val->arrayval, 32);
-		break;
-	case POWER_SUPPLY_PROP_CHALLENGE:
-		memcpy(challenge, val->arrayval, 32);
-		break;
-*/
 	case POWER_SUPPLY_PROP_AUTH_ANON:
 		auth_ANON = val->intval;
 		break;
@@ -1385,10 +1363,6 @@ static int verify_prop_is_writeable(struct power_supply *psy,
 
 	switch (prop) {
 	case POWER_SUPPLY_PROP_PAGENUMBER:
-	case POWER_SUPPLY_PROP_PAGEDATA:
-	case POWER_SUPPLY_PROP_SESSION_SEED:
-	case POWER_SUPPLY_PROP_S_SECRET:
-	case POWER_SUPPLY_PROP_CHALLENGE:
 	case POWER_SUPPLY_PROP_AUTH_ANON:
 	case POWER_SUPPLY_PROP_AUTH_BDCONST:
 #ifdef CONFIG_K6_CHARGE
