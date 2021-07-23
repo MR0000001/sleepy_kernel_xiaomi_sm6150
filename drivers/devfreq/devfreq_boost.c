@@ -17,6 +17,8 @@
 static bool disable_boosts __read_mostly;
 module_param(disable_boosts, bool, 0644);
 
+unsigned long last_input_time;
+
 enum {
 	SCREEN_OFF,
 	INPUT_BOOST,
@@ -240,6 +242,8 @@ static void devfreq_boost_input_event(struct input_handle *handle,
 		__devfreq_boost_kick(d->devices + i);
 
 	d->last_input_jiffies = jiffies;
+
+	last_input_time = jiffies;
 }
 
 static int devfreq_boost_input_connect(struct input_handler *handler,
